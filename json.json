@@ -1,0 +1,61 @@
+﻿[
+  {
+    "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJleHAiOjE0OTY4OTg5ODQsIm5iZiI6MTQ5Njg5NTM4NCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tLzg4MGY1NmVmLTBkZGQtNDVjMi1iYWU0LWUyOWYwN2JmZDRhYi92Mi4wLyIsInN1YiI6ImVjZTQ0M2JhLWQ3MDgtNDI0My1hZTk4LWQ1NWMyZTBkOGIwYyIsImF1ZCI6ImMzMTg0MDk2LWZjNjgtNDkyYy1hNjUzLTM1ZTBjNTc4YjEzZiIsIm5vbmNlIjoiMzQyN2ExY2UzNDE0NDJjZjkzNWUxOGRkM2I0MjIzODNfMjAxNzA2MDgwNDIwNTciLCJpYXQiOjE0OTY4OTUzODQsImF1dGhfdGltZSI6MTQ5Njg5NTM4NCwib2lkIjoiZWNlNDQzYmEtZDcwOC00MjQzLWFlOTgtZDU1YzJlMGQ4YjBjIiwiZ2l2ZW5fbmFtZSI6Ikdlb2ZmcmV5IiwiZmFtaWx5X25hbWUiOiJNb3JnYW4iLCJ0ZnAiOiJCMkNfMV9EZWZhdWx0U2lnblVwUG9saWN5In0.Lr9mkIhrKul-LvUKSINxGLPtxuX2k0bqNMtjHIw56eeKQ00ffXRSg5SQfC6oEcV7yqAuWwj10ir0OVYNYBH7Fl2_2Cc8oss15d8QMFzgjIuNxspeghRBVxv6ImxVwyQkSp9XzvqB8pvA6C8ANOlV3hN7xngTDnK_0fjJS-sv2Dr0WvRJLtggwxL-5SZa_rrfzpiGXjFRP3diABR-f1ysE1HgbIj0SOG9pTCXqCbcWQIFl-SnDC7KG-aFCclzhFb4mLEH6Z4mtqzLdjs4f73-r-epoQxe-9kJ7WRxr846Up_fqv1j2psoxSzo9oniCL75QKfcG_yEvdc5HlWeX5a0Vg",
+    "provider_name": "aad",
+    "user_claims": [
+      {
+        "typ": "exp",
+        "val": "1496898984"
+      },
+      {
+        "typ": "nbf",
+        "val": "1496895384"
+      },
+      {
+        "typ": "ver",
+        "val": "1.0"
+      },
+      {
+        "typ": "iss",
+        "val": "https://login.microsoftonline.com/880f56ef-0ddd-45c2-bae4-e29f07bfd4ab/v2.0/"
+      },
+      {
+        "typ": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
+        "val": "ece443ba-d708-4243-ae98-d55c2e0d8b0c"
+      },
+      {
+        "typ": "aud",
+        "val": "c3184096-fc68-492c-a653-35e0c578b13f"
+      },
+      {
+        "typ": "nonce",
+        "val": "3427a1ce341442cf935e18dd3b422383_20170608042057"
+      },
+      {
+        "typ": "iat",
+        "val": "1496895384"
+      },
+      {
+        "typ": "http://schemas.microsoft.com/ws/2008/06/identity/claims/authenticationinstant",
+        "val": "1496895384"
+      },
+      {
+        "typ": "http://schemas.microsoft.com/identity/claims/objectidentifier",
+        "val": "ece443ba-d708-4243-ae98-d55c2e0d8b0c"
+      },
+      {
+        "typ": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname",
+        "val": "Geoffrey"
+      },
+      {
+        "typ": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname",
+        "val": "Morgan"
+      },
+      {
+        "typ": "tfp",
+        "val": "B2C_1_DefaultSignUpPolicy"
+      }
+    ],
+    "user_id": "ece443ba-d708-4243-ae98-d55c2e0d8b0c"
+  }
+]

@@ -8,11 +8,16 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 namespace WebApplicationBasic
 {
     public class Startup
     {
+        public static string ScopeRead;
+        public static string ScopeWrite;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -38,6 +43,20 @@ namespace WebApplicationBasic
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                Authority = string.Format("https://login.microsoftonline.com/tfp/{0}/{1}/v2.0/",
+        Configuration["Authentication:AzureAd:Tenant"], Configuration["Authentication:AzureAd:Policy"]),
+                Audience = Configuration["Authentication:AzureAd:ClientId"],
+                Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = AuthenticationFailed
+                }
+            });
+
+            ScopeRead = Configuration["Authentication:AzureAd:ScopeRead"];
+            ScopeWrite = Configuration["Authentication:AzureAd:ScopeWrite"];
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -62,6 +81,15 @@ namespace WebApplicationBasic
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+        }
+
+        private Task AuthenticationFailed(AuthenticationFailedContext arg)
+        {
+            // For debugging purposes only!
+            var s = $"AuthenticationFailed: {arg.Exception.Message}";
+            arg.Response.ContentLength = s.Length;
+            arg.Response.Body.Write(Encoding.UTF8.GetBytes(s), 0, s.Length);
+            return Task.FromResult(0);
         }
     }
 }
