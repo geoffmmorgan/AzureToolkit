@@ -8,8 +8,9 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using WebApplicationBasic.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApplicationBasic
 {
@@ -32,6 +33,9 @@ namespace WebApplicationBasic
         {
             // Add framework services.
             services.AddMvc();
+
+            var connection = @"Server=tcp:azuretoolkit.database.windows.net,1433;Initial Catalog=azuretoolkit;Persist Security Info=False;User ID=crank;Password=P2ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            services.AddDbContext<AzureToolkitContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +47,8 @@ namespace WebApplicationBasic
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
                     HotModuleReplacement = true
                 });
             }
