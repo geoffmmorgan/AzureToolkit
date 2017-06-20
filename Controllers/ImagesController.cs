@@ -6,6 +6,8 @@ using System.Net;
 using WebApplicationBasic.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Azure.Search.Models;
+using Microsoft.Azure.Search;
 
 namespace WebApplicationBasic.Controllers
 {
@@ -18,15 +20,22 @@ namespace WebApplicationBasic.Controllers
         public ImagesController(AzureToolkitContext context)
         {
             _context = context;
-              CloudStorageAccount storageAccount = new CloudStorageAccount(
-                  new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(
-                        "azuretoolkitstorage",
-                        "BgswmUTBxb7ODcbqmyP/qUJIYk7VtJcPDhAi1ybdtbNg8Gv2QTr8CQG2E5goKrhQ262KedF48Rk2GHI6fF5yRg=="), true);
+            CloudStorageAccount storageAccount = new CloudStorageAccount(
+                new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(
+                      "azuretoolkitstorage",
+                      "BgswmUTBxb7ODcbqmyP/qUJIYk7VtJcPDhAi1ybdtbNg8Gv2QTr8CQG2E5goKrhQ262KedF48Rk2GHI6fF5yRg=="), true);
 
             // Create a blob client.
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            
+
             _container = blobClient.GetContainerReference("savedimages");
+        }
+
+        [HttpGet("{userId}")]
+        public IActionResult GetImages(string userID)
+        {
+            var images = _context.SavedImages.Where(image => image.UserId == userID);
+            return Ok(images);
         }
 
         [HttpPost]
@@ -41,7 +50,7 @@ namespace WebApplicationBasic.Controllers
             var stream = aResponse.GetResponseStream();
             await blockBlob.UploadFromStreamAsync(stream);
             stream.Dispose();
-            
+
             //Save metadata
             var savedImage = new SavedImage();
             savedImage.UserId = request.UserId;
@@ -49,15 +58,29 @@ namespace WebApplicationBasic.Controllers
             savedImage.StorageUrl = blockBlob.Uri.ToString();
             savedImage.Tags = new List<SavedImageTag>();
 
-            foreach(var tag in request.Tags)
+            foreach (var tag in request.Tags)
             {
-                savedImage.Tags.Add(new SavedImageTag() {Tag = tag});
+                savedImage.Tags.Add(new SavedImageTag() { Tag = tag });
             }
 
             _context.Add(savedImage);
             _context.SaveChanges();
-            
+
             return Ok();
+        }
+
+        [HttpGet("search/{userId}/{term}")]
+        public IActionResult SearchImages(string userId, string term)
+        {
+            string searchServiceName ="azuretoolkit";
+            string queryApiKey = "B97130EB7A0B30DA4703B93CC99E37F3";
+
+            SearchIndexClient indexClient = new SearchIndexClient(searchServiceName, "description", new SearchCredentials(queryApiKey));
+
+            SearchParameters parameters = new SearchParameters() { Filter = $"UserId eq '{userId}'" };
+            DocumentSearchResult<SavedImage> results = indexClient.Documents.Search<SavedImage>(term, parameters);
+            
+            return Ok(results.Results.Select((savedImage) => savedImage.Document));
         }
     }
 
